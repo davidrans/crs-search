@@ -191,6 +191,7 @@ source = { virtual = "." }
 dependencies = [
     { name = "beautifulsoup4" },
     { name = "datasette" },
+    { name = "datasette-sqlite-vec" },
     { name = "sentence-transformers" },
     { name = "sqlite-vec" },
     { name = "streamlit" },
@@ -200,6 +201,7 @@ dependencies = [
 requires-dist = [
     { name = "beautifulsoup4", specifier = ">=4.14.3" },
     { name = "datasette", specifier = ">=0.65.2" },
+    { name = "datasette-sqlite-vec", specifier = ">=0.1.6" },
     { name = "sentence-transformers", specifier = ">=5.1.2" },
     { name = "sqlite-vec", specifier = ">=0.1.6" },
     { name = "streamlit", specifier = ">=1.52.1" },
@@ -234,6 +236,18 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/80/26/80b5480921d71891b8ff880fed6d44150b9164903d683efe2eb7405b61d8/datasette-0.65.2.tar.gz", hash = "sha256:be956fb2633b8380d7f818b5ddab40d5c7346d5e9d4d24e81c43b1fb60267432", size = 410536, upload-time = "2025-11-05T18:23:25.926Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/a1/3a/ffa1259fc018f3bb0e6e8444982909a449478ede805def5593319ff3f732/datasette-0.65.2-py3-none-any.whl", hash = "sha256:d4f342a5c86d073bbb1880a9df792354cae4f951e427b57586713eff1896507f", size = 397412, upload-time = "2025-11-05T18:23:23.916Z" },
+]
+
+[[package]]
+name = "datasette-sqlite-vec"
+version = "0.1.6"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "datasette" },
+    { name = "sqlite-vec" },
+]
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/c7/9f/96b4cfd42da366fa7d6c9e25512f3dce5ed56cd2388da1cc5f09b93a8966/datasette_sqlite_vec-0.1.6-py3-none-any.whl", hash = "sha256:f1887a232d1ee983c3accb4d33b6afc0539b055bf087a73ecc9851b0622bea4f", size = 2245, upload-time = "2024-11-20T16:40:39.295Z" },
 ]
 
 [[package]]

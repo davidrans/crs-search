@@ -105,7 +105,7 @@ def run_indexing():
     
     print("Parsing HTML...")
     # CALL THE PARSER
-    all_sections = parse_crs_html("manual.html")
+    all_sections = parse_crs_html(r"C:\Users\drans\Desktop\Colorado Revised Statutes 2024 Title 18 Criminal Code.html")
     print(f"Found {len(all_sections)} sections.")
 
     print("Vectorizing...")
