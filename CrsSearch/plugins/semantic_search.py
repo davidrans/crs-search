@@ -5,13 +5,15 @@ import json
 
 # Load the model once when Datasette starts
 # (Using the same model name as your indexer)
-model = SentenceTransformer('all-MiniLM-L6-v2')
+model = SentenceTransformer("all-MiniLM-L6-v2")
+
 
 @hookimpl
 def prepare_connection(conn):
     """
     Registers the 'embed_text' function in SQLite so you can use it in SQL queries.
     """
+
     def embed_text(text):
         if not text:
             return None

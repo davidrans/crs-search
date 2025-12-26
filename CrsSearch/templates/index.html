@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRS Search</title>
+    <!-- Pico.css for instant modern styling -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+    <style>
+        /* Custom tweaks */
+        body { max-width: 960px; margin: 0 auto; padding: 20px; }
+        .result-card { 
+            padding: 20px; 
+            margin-bottom: 20px; 
+            border-radius: 8px; 
+            background: #1c212c; /* Dark card background */
+            border: 1px solid #2d3546;
+        }
+        .meta { font-size: 0.8em; color: #888; margin-bottom: 10px; }
+        .score { float: right; font-weight: bold; color: #4CAF50; }
+        .content { white-space: pre-wrap; line-height: 1.6; }
+        #loading { display: none; text-align: center; }
+    </style>
+</head>
+<body>
+
+    <main class="container">
+        <hgroup>
+            <h1>Colorado Criminal Code Search</h1>
+        </hgroup>
+
+        <!-- Search Box -->
+        <form onsubmit="doSearch(event)">
+            <fieldset role="group">
+                <input type="search" id="query" name="query" placeholder="Describe the crime or statute (e.g., 'car theft')" required>
+                <button type="submit">Search</button>
+            </fieldset>
+        </form>
+
+        <!-- Loading Indicator -->
+        <div id="loading"><span aria-busy="true"></span> Searching vector space...</div>
+
+        <!-- Results Container -->
+        <div id="results"></div>
+    </main>
+
+    <script>
+        async function doSearch(e) {
+            e.preventDefault();
+            const query = document.getElementById('query').value;
+            const resultsDiv = document.getElementById('results');
+            const loading = document.getElementById('loading');
+
+            // clear previous
+            resultsDiv.innerHTML = '';
+            loading.style.display = 'block';
+
+            try {
+                // 1. Call your Datasette Canned Query as a JSON API
+                // _shape=array returns a nice clean list of objects
+                const response = await fetch(`/docs/semantic_search.json?query=${encodeURIComponent(query)}&_shape=array`);
+                const data = await response.json();
+
+                // 2. Render Results
+                if (data.length === 0) {
+                    resultsDiv.innerHTML = '<article>No results found.</article>';
+                } else {
+                    data.forEach(row => {
+                        // Calculate percentage score from distance
+                        // (Distance 0 = 100% match, Distance 1 = 0% match)
+                        const score = Math.round((1 - row.distance) * 100);
+                        
+                        const html = `
+                            <article class="result-card">
+                                <div class="meta">
+                                    <span class="score">${score}% Match</span>
+                                    <strong>${row.article}</strong> • Section ${row.section_id}
+                                </div>
+                                <h4>${row.main_title}</h4>
+                                <div class="content">${row.content}</div>
+                            </article>
+                        `;
+                        resultsDiv.innerHTML += html;
+                    });
+                }
+            } catch (err) {
+                console.error(err);
+                resultsDiv.innerHTML = `<article style="color:red">Error: ${err.message}</article>`;
+            } finally {
+                loading.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>
