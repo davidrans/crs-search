@@ -6,7 +6,7 @@
                 "semantic_search": {
                     "title": "Semantic Search",
                     "description": "Search by meaning, not just keywords.",
-                    "sql": "select sections.main_title, sections.article, sections.section_id, sections.content, vec_sections.distance from vec_sections join sections on vec_sections.rowid = sections.id where vec_sections.embedding match embed_text(:query) and k = 10 order by vec_sections.distance",
+                    "sql": "select sections.main_title, sections.article, sections.section_id, sections.content, vec_sections.distance from vec_sections join sections on vec_sections.rowid = sections.id where :query != '' and vec_sections.embedding match embed_text(:query) and k = 10 order by vec_sections.distance",
                     "params": ["query"]
                 }
             }
